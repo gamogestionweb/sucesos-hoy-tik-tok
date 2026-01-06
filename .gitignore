@@ -1,0 +1,36 @@
+# Archivos sensibles
+.env
+*.log
+data/tiktok_cookies.json
+data/processed_tweets.json
+
+# Carpetas de trabajo
+downloads/
+processed/
+logs/
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Playwright
+playwright-data/
+
