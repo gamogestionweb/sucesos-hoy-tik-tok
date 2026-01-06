@@ -1,97 +1,109 @@
 # Sucesos Hoy TikTok Bot
 
-Bot automatizado para monitorear emergencias de Madrid y publicar en TikTok.
+Automated bot to monitor Madrid emergencies and publish to TikTok.
 
-## Funcionalidades
+## Features
 
-- Monitorea la cuenta @EmergenciasMad en Twitter/X
-- Descarga automaticamente los videos de los tweets
-- Edita el video:
-  - Corte aleatorio de segmentos
-  - Conversion a formato vertical 9:16 (sin barras negras)
-  - Texto superpuesto centrado con la noticia
-  - Voz TTS en espanol narrando la noticia
-- Reformula el texto automaticamente (misma noticia, diferentes palabras)
-- Convierte @menciones a texto legible (ej: @BomberosMad -> Bomberos de Madrid)
-- Elimina # de hashtags pero mantiene el contenido
-- Publica automaticamente en TikTok
+- Monitors @EmergenciasMad Twitter/X account in real-time
+- Automatically downloads videos from tweets
+- Video editing:
+  - Random segment selection
+  - Vertical 9:16 format conversion (no black bars, zoom/crop)
+  - Centered text overlay with the news
+  - Spanish TTS voice narrating the news
+- Automatic text reformulation (same news, different words)
+- Converts @mentions to readable text (e.g., @BomberosMad -> Bomberos de Madrid)
+- Removes # from hashtags but keeps the content
+- Automatic TikTok publishing
 
-## Requisitos
+## Requirements
 
 - Python 3.10+
-- FFmpeg instalado y en PATH
-- Cuenta de Twitter Developer (API keys)
-- Cuenta de TikTok
+- FFmpeg installed and in PATH
+- Twitter Developer account (API keys)
+- TikTok account
 
-## Instalacion
+## Installation
 
-1. Clonar el repositorio:
+1. Clone the repository:
 ```bash
 git clone https://github.com/gamogestionweb/sucesos-hoy-tik-tok.git
 cd sucesos-hoy-tik-tok
 ```
 
-2. Instalar dependencias:
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
 playwright install chromium
 ```
 
-3. Configurar variables de entorno:
+3. Configure environment variables:
 ```bash
 cp .env.example .env
-# Editar .env con tus API keys
+# Edit .env with your API keys
 ```
 
-4. Instalar FFmpeg:
-   - Windows: Descargar de https://ffmpeg.org/download.html y agregar a PATH
+4. Install FFmpeg:
+   - Windows: Download from https://ffmpeg.org/download.html and add to PATH
    - Linux: `sudo apt install ffmpeg`
    - Mac: `brew install ffmpeg`
 
-## Uso
+## Usage
 
-### Ejecutar el bot (monitoreo continuo):
+### Run the bot (continuous monitoring):
 ```bash
 python bot.py
 ```
 
-### Probar con un tweet especifico:
+### Test with a specific tweet:
 ```bash
 python test_tweet.py
 ```
-Edita la variable TWEET_URL en el archivo para probar diferentes tweets.
+Edit the TWEET_URL variable in the file to test different tweets.
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 sucesos-bot/
-├── bot.py              # Bot principal con monitoreo continuo
-├── test_tweet.py       # Script de prueba para tweets individuales
-├── requirements.txt    # Dependencias Python
-├── .env.example        # Plantilla de configuracion
+├── bot.py              # Main bot with continuous monitoring
+├── test_tweet.py       # Test script for individual tweets
+├── requirements.txt    # Python dependencies
+├── .env.example        # Configuration template
 ├── .gitignore
 └── src/
-    ├── config.py           # Carga de configuracion
-    ├── twitter_api.py      # Conexion API Twitter v2
-    ├── twitter_monitor.py  # Monitoreo de cuenta
-    ├── video_downloader.py # Descarga videos con yt-dlp
-    ├── video_editor.py     # Edicion con FFmpeg
-    ├── text_rewriter.py    # Reformulacion de texto
-    ├── tts_generator.py    # Generacion de voz (edge-tts)
-    └── tiktok_uploader.py  # Subida a TikTok (Playwright)
+    ├── config.py           # Configuration loader
+    ├── twitter_api.py      # Twitter v2 API connection
+    ├── twitter_monitor.py  # Account monitoring
+    ├── video_downloader.py # Video download with yt-dlp
+    ├── video_editor.py     # FFmpeg video editing
+    ├── text_rewriter.py    # Text reformulation
+    ├── tts_generator.py    # Voice generation (edge-tts)
+    └── tiktok_uploader.py  # TikTok upload (Playwright)
 ```
 
-## Configuracion
+## Configuration
 
-| Variable | Descripcion |
+| Variable | Description |
 |----------|-------------|
-| TWITTER_USERNAME | Cuenta de Twitter a monitorear |
-| TWITTER_BEARER_TOKEN | Token de API de Twitter |
-| CHECK_INTERVAL | Intervalo de chequeo en segundos |
-| MAX_CLIP_DURATION | Duracion maxima del clip (segundos) |
-| MIN_CLIP_DURATION | Duracion minima del clip (segundos) |
+| TWITTER_USERNAME | Twitter account to monitor |
+| TWITTER_BEARER_TOKEN | Twitter API Bearer Token |
+| CHECK_INTERVAL | Check interval in seconds |
+| MAX_CLIP_DURATION | Maximum clip duration (seconds) |
+| MIN_CLIP_DURATION | Minimum clip duration (seconds) |
 
-## Licencia
+## How It Works
+
+1. **Monitoring**: The bot checks @EmergenciasMad every 1-60 minutes (randomized to avoid detection)
+2. **Download**: When a new tweet with video is detected, it downloads using yt-dlp
+3. **Processing**: 
+   - Selects a random segment (15-60 seconds)
+   - Converts to vertical 9:16 format (crops/zooms to fill screen)
+   - Generates TTS audio in Spanish
+   - Overlays centered text with the news
+4. **Reformulation**: Rewrites the news text keeping proper names but changing verbs/nouns
+5. **Publishing**: Uploads to TikTok using Playwright browser automation
+
+## License
 
 MIT License
 
